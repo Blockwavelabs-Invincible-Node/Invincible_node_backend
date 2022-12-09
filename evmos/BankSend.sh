@@ -1,0 +1,1 @@
+printf "$1\n" | evmosd tx bank send evmos1827zf8wc9hm767g9p8a6pnpzfxxf9n8uyj7y7s evmos1my29enjj6wr0y4y30eypadzwn9pl8yfca0p3jl 100000atevmos --chain-id evmos_9000-4 --fees 3000000000001atevmos --from bwlkey --gas 300000 --yes 
