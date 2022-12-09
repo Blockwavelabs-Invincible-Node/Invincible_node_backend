@@ -1,4 +1,6 @@
 {
     "rewardToken" : "0x004e2d9d9d0e7fB202eFdc6069d624a4F97841fa",
-    "liquidStaking" : "0x80c51b9F8463BF726238d12da607E37F1ffc36B4"
+    "liquidStaking" : "0x80c51b9F8463BF726238d12da607E37F1ffc36B4",
+    "stableTokenPool" : "x278bB6AdBA4B9CB0aaCbE6f22C43D5038657c05c"
+
 }
