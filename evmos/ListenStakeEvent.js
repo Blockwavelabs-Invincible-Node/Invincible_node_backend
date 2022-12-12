@@ -54,6 +54,10 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, event) => {
         console.log("writer: ", result);
     })
 
+    stableCoinPoolContractWrite.owner().then((result) => {
+        console.log("writer: ", result);
+    })
+
     stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
         console.log(result);
     });
