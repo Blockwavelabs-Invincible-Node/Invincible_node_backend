@@ -2,20 +2,31 @@ require("dotenv").config();
 const fs = require('fs');
 const { exec } = require("child_process");
 const { ethers, utils } = require("ethers");
-const  liquidStakingJSON  = require("../artifacts/LiquidStaking_metadata.json");
+const liquidStakingJSON  = require("./artifacts/LiquidStaking_metadata.json");
+const stableCoinPoolJSON = require("./artifacts/StableCoinPool.json");
+
 const pw = process.env.PASSPHRASE;
-const addresses = require("../addresses/contractAddress.json");
+const addresses = require("./addresses/contractAddress.json");
 
 // const web3 = new Web3(window.ethereum);
-const provider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
+const evmosProvider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
 const privateKey = process.env.EVMOS_PRIVATE_KEY;
-const signer = new ethers.Wallet(privateKey, provider);
+const evmosSigner = new ethers.Wallet(privateKey, evmosProvider);
 
-const contractAddress = addresses.liquidStaking;
-const contractABI = liquidStakingJSON.output.abi;
+const ethereumProvider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_RPC_URL);
+const ethereumSigner = new ethers.Wallet(privateKey, ethereumProvider);
+                 
+const liquidStakingContractAddress = addresses.liquidStaking;
+const liquidStakingContractABI = liquidStakingJSON.output.abi;
 
-const contractWrite = new ethers.Contract(contractAddress, contractABI, signer);
-const contractRead = new ethers.Contract(contractAddress, contractABI, provider);
+const liquidStakingContractWrite = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, evmosSigner);
+const liquidStakingContractRead = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, evmosProvider);
+
+const stableCoinPoolContractAddress = addresses.stableTokenPool;
+const stableCoinPoolContractABI = stableCoinPoolJSON.output.abi;
+
+const stableCoinPoolContractWrite = new ethers.Contract(stableCoinPoolContractAddress, stableCoinPoolContractABI, ethereumSigner);
+const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAddress, stableCoinPoolContractABI, ethereumProvider);
 
 // contractRead.owner().then((result) => {
 //     console.log(result);
@@ -27,7 +38,7 @@ const contractRead = new ethers.Contract(contractAddress, contractABI, provider)
 console.log("-------------Listening to Contract Event--------------");
 
 // listen to transfer event
-contractRead.on("Transfer", (src, dst, val, event) => {
+liquidStakingContractRead.on("Transfer", (src, dst, val, event) => {
     let info = {
         from: src,
         to: dst,
@@ -39,23 +50,36 @@ contractRead.on("Transfer", (src, dst, val, event) => {
     console.log("Receiver: ", info.to),
     console.log("Value: ", info.value);
 
-    exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
-        console.log(typeof obj1, obj1);
-        const file = fs.readFileSync('stake-log.json')
-        const currentTime = new Date()
-        const inputData = {};
-        inputData[currentTime] = obj1
-        const exsistData = JSON.parse(file.toString())
-        console.log(exsistData, typeof exsistData)
-        obj2 = Object.assign(exsistData, inputData)
-        fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
+    stableCoinPoolContractWrite.owner().then((result) => {
+        console.log("writer: ", result);
     })
+
+    stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
+        console.log(result);
+    });
+
+    // exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.log(`error: ${error.message}`);
+    //         return;
+    //     }
+    //     console.log(`stdout: ${stdout}`);
+    //     obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
+    //     console.log(typeof obj1, obj1);
+    //     const file = fs.readFileSync('stake-log.json')
+    //     const currentTime = new Date()
+    //     const inputData = {};
+    //     inputData[currentTime] = obj1
+    //     const exsistData = JSON.parse(file.toString())
+    //     console.log(exsistData, typeof exsistData)
+    //     obj2 = Object.assign(exsistData, inputData)
+    //     fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
+
+    //     // send stable coin to receiver
+    //     stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
+    //         console.log(result);
+    //     });
+    // })
 });
 
 
