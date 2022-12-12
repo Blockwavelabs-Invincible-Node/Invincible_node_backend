@@ -2,9 +2,9 @@ require("dotenv").config();
 const fs = require('fs');
 const { exec } = require("child_process");
 const { ethers, utils } = require("ethers");
-const  liquidStakingJSON  = require("./artifacts/LiquidStaking_metadata.json");
+const  liquidStakingJSON  = require("../artifacts/LiquidStaking_metadata.json");
 const pw = process.env.PASSPHRASE;
-const addresses = require("./addresses/contractAddress.json");
+const addresses = require("../addresses/contractAddress.json");
 
 // const web3 = new Web3(window.ethereum);
 const provider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
