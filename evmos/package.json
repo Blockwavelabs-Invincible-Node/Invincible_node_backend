@@ -15,6 +15,7 @@
     "@maticnetwork/maticjs": "^3.5.0",
     "@maticnetwork/maticjs-ethers": "^1.0.3",
     "@maticnetwork/maticjs-web3": "^1.0.4",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "web3": "^1.8.1"
   }
 }

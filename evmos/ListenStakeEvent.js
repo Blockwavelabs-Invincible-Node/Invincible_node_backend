@@ -2,6 +2,10 @@ require("dotenv").config();
 const fs = require('fs');
 const { exec } = require("child_process");
 const { ethers, utils } = require("ethers");
+var Web3 = require('web3');
+
+var web3 = new Web3(Web3.givenProvider);
+
 const liquidStakingJSON  = require("./artifacts/LiquidStaking_metadata.json");
 const stableCoinPoolJSON = require("./artifacts/StableCoinPool.json");
 
@@ -38,27 +42,28 @@ const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAdd
 console.log("-------------Listening to Contract Event--------------");
 
 // listen to transfer event
-liquidStakingContractRead.on("Transfer", (src, dst, val, event) => {
+liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) => {
     let info = {
         from: src,
         to: dst,
         value: ethers.utils.formatUnits(val, 0),
+        stable: stableAmount,
         data: event,
     }
 
     console.log("Sender: ", info.from);
     console.log("Receiver: ", info.to),
     console.log("Value: ", info.value);
+    console.log("Stable Amount: ", info.stable);
+
+    const stableAmountNumber = web3.utils.hexToNumber(info.stable);
+    console.log("Stable Amount Number: ", stableAmountNumber);
 
     stableCoinPoolContractWrite.owner().then((result) => {
         console.log("writer: ", result);
     })
 
-    stableCoinPoolContractWrite.owner().then((result) => {
-        console.log("writer: ", result);
-    })
-
-    stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
+    stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
         console.log(result);
     });
 
