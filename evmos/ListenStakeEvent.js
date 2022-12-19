@@ -55,17 +55,28 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
     console.log("Receiver: ", info.to),
     console.log("Value: ", info.value);
     console.log("Stable Amount: ", info.stable);
-
+    try{
     const stableAmountNumber = web3.utils.hexToNumber(info.stable);
     console.log("Stable Amount Number: ", stableAmountNumber);
-
+    try{
+        stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
+            console.log(result);
+        });
+        }catch(error){
+            console.log(error+'sendStableToken');
+        }
+    } catch(error){
+        console.log(error + 'hex To number error');
+    }
+    try{
     stableCoinPoolContractWrite.owner().then((result) => {
         console.log("writer: ", result);
     })
+    } catch(error){
+        console.log(error+'owner');
+    }
 
-    stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
-        console.log(result);
-    });
+    
 
     // exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
     //     if (error) {
