@@ -39,29 +39,62 @@ console.log("-------------Listening to Contract Event--------------");
 
 //컨트랙트에 listen 하면서 vaidator address get
 liquidStakingContractRead.on("UpdateRequest", (validatorAddress, event) => {
-    console.log(validatorAddress.hash)
-    console.log(utils.isAddress(validatorAddress.hash))
-    const hash = crypto.createHash('sha256')
-    console.log(hash.digest(validatorAddress.hash))
-    let info = {
-        address: utils.getIcapAddress(validatorAddress.hash),
-        data: event,
-    }
     
-    console.log("Validator Address: ", info.address);
-    exec("bash ValidatorCheck.sh " + info.address, (error, stdout, stderr) => {
+    // let info = {
+    //     address: utils.getIcapAddress(validatorAddress.hash),
+    //     data: event,
+    // }
+    var isValidAddress = false
+    var originAddress = ""
+    exec("bash ValidatorList.sh", (error, stdout, stderr) => {
         if(error){
-            //invalid 한 validator address면 error 발생되므로 여기에 걸림
-            //이때는 숫자 2를 liquid-staking contract에 보내줌
-            console.log(error.message)
-            console.log(2);
-            return;
+            console.log(error)
         }
-        //valid한 address일떄 여기에 걸림
-        //숫자 1을 liquid-staking contract에 보내줌
-        console.log(stdout)
-        console.log(typeof(stdout))
+        //전체 밸리데이터 주소 문자열을 하나하나씩 나눔
+        const addressList = stdout.split("\n")
+        
+        for (const addr in addressList){
+            //앞뒤에 붙어있는 불필요한 문자열 제거
+            const parsedAddress = addressList[addr].slice(3, -3)
+            //파싱된 문자열을 hex값으로 변환
+            const convertedAddress = utils.keccak256(utils.toUtf8Bytes(parsedAddress))
+            
+            //컨트랙트를 통해 들어온 hex값과 변환된 밸리 주소의 hex값 비교
+            if(convertedAddress == validatorAddress.hash){
+                originAddress = parsedAddress
+                console.log()
+                console.log(convertedAddress)
+                console.log()
+                isValidAddress = true
+            }
+        }
+        console.log()
+        console.log(isValidAddress)
+        if(isValidAddress){
+            liquidStakingContractWrite.setValidatorAddress(originAddress, 1).then((result) => {
+                console.log(result)
+            })
+        }
+        
     })
+    
+    
+    
+    
+    // console.log("Validator Address: ", info.address);
+    // exec("bash ValidatorCheck.sh " + info.address, (error, stdout, stderr) => {
+    //     if(error){
+    //         //invalid 한 validator address면 error 발생되므로 여기에 걸림
+    //         //이때는 숫자 2를 liquid-staking contract에 보내줌
+    //         console.log(error.message)
+    //         console.log(2);
+    //         return;
+    //     }
+    //     //valid한 address일떄 여기에 걸림
+    //     //숫자 1을 liquid-staking contract에 보내줌
+    //     console.log(stdout)
+    //     console.log(typeof(stdout))
+    // })
    
     
 });

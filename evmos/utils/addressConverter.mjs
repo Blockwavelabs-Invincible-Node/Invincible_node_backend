@@ -11,6 +11,8 @@ import { ethToEvmos, evmosToEth } from '@evmos/address-converter'
 export default function hexToAddress(hexAddress){
     return ethToEvmos(hexAddress)
 }
+const a = "0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69"
+console.log(ethToEvmos(a))
 // let evmosDestination = 'evmosvaloper127567uge98th4kgkwgvf7xmz0q0gjunutecz4s'
 
 // if(evmosDestination.split('evmosvaloper').length == 2) {

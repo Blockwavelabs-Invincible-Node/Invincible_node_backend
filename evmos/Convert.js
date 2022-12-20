@@ -1,4 +1,4 @@
-// const {ethers, utils} = require('ethers')
+const {ethers, utils} = require('ethers')
 // console.log(utils.arrayify("0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69"))
 // b=utils.formatBytes32String("0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69")
 // console.log(b)
@@ -13,23 +13,18 @@ var web3 = new Web3(Web3.givenProvider);
 
 
 //evmosvaloper127567uge98th4kgkwgvf7xmz0q0gjunutecz4s
+//0x0000000000000000000000000000000000000000000000000000000000000000
+//0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69
+const hex = '0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69';
+const int = parseInt(hex, 16);
+const str = int.toString();
 
-function hex2a(hexx) {
-    var hex = hexx.toString();//force conversion
-    var str = '';
-    for (var i = 0; i < hex.length; i += 2)
-        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-    return str;
-}
-console.log(hex2a('0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69')); // returns '2460'
+console.log(str);  // Output: "18446744073709551615"
 
-
-function a2hex(str) {
-    var arr = [];
-    for (var i = 0, l = str.length; i < l; i ++) {
-      var hex = Number(str.charCodeAt(i)).toString(16);
-      arr.push(hex);
-    }
-    return arr.join('');
-  }
-  console.log(a2hex('0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69')); //returns 32343630
+const temp = web3.utils.utf8ToHex('evmos');
+console.log(temp);
+//0x49206861766520313030e282ac
+console.log(ethers.utils.base58.encode("0x3788093420be13d0e3542277de879e760613dbf0c3061679449a7aab8d70eb69"))
+console.log(utils.toUtf8Bytes("evmosvaloper127567uge98th4kgkwgvf7xmz0q0gjunutecz4s"));
+console.log(utils.keccak256(utils.toUtf8Bytes("evmosvaloper127567uge98th4kgkwgvf7xmz0q0gjunutecz4s")))
+console.log(utils.id("evmosvaloper127567uge98th4kgkwgvf7xmz0q0gjunutecz4s"))

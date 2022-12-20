@@ -1,0 +1,1 @@
+printf "y\n\n" | evmosd query staking validators -o json | jq '.validators[] | [.operator_address] | @csv' | column -t -s","
