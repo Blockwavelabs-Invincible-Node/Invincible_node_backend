@@ -24,6 +24,38 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_account",
+						"type": "address"
+					}
+				],
+				"name": "addAddressList",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "addressList",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -34,6 +66,44 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "borrowed",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_account",
+						"type": "address"
+					}
+				],
+				"name": "exists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -58,6 +128,11 @@
 						"internalType": "uint256",
 						"name": "_amount",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_validatorAddress",
+						"type": "string"
 					}
 				],
 				"name": "receiveStableToken",
@@ -98,6 +173,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "totalAddressNumber",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "totalReceived",
 				"outputs": [
 					{
@@ -117,6 +205,25 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "validatorAddress",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -163,11 +270,11 @@
 			]
 		},
 		"contracts/StableTokenPool.sol": {
-			"keccak256": "0x2596f43a4ff38387a2073f0d3945e0b8351eadbbf6a711686345a6def01fbc4f",
+			"keccak256": "0x6275b2d9b1add670965a1a7b4ba004425d64e464ab2238d355b5c822cad77304",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://18c363b907e71335bacbcadf9b24662a3f19d67b64f21939683518321d30c3fd",
-				"dweb:/ipfs/QmUMGgi7Se8EksWm3CkaM2MDK4GJZFaYQmqQ9h3bJpTE5j"
+				"bzz-raw://746972318b9ee8bb55da24f661396d131352bdb5b2e8bf84c6ac36a60bcf6c4a",
+				"dweb:/ipfs/QmXr7R7jqm4HPXU1ZLyRiqwoynbCdMBQLWF49apCarh4eb"
 			]
 		}
 	},

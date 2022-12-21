@@ -6,7 +6,7 @@ var Web3 = require('web3');
 
 var web3 = new Web3(Web3.givenProvider);
 
-const liquidStakingJSON  = require("./artifacts/LiquidStaking_metadata.json");
+const liquidStakingJSON  = require("./artifacts/LiquidStaking.json");
 const stableCoinPoolJSON = require("./artifacts/StableCoinPool.json");
 
 const pw = process.env.PASSPHRASE;
@@ -78,28 +78,28 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
 
     
 
-    // exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
-    //     if (error) {
-    //         console.log(`error: ${error.message}`);
-    //         return;
-    //     }
-    //     console.log(`stdout: ${stdout}`);
-    //     obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
-    //     console.log(typeof obj1, obj1);
-    //     const file = fs.readFileSync('stake-log.json')
-    //     const currentTime = new Date()
-    //     const inputData = {};
-    //     inputData[currentTime] = obj1
-    //     const exsistData = JSON.parse(file.toString())
-    //     console.log(exsistData, typeof exsistData)
-    //     obj2 = Object.assign(exsistData, inputData)
-    //     fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
+    exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        // obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
+        // console.log(typeof obj1, obj1);
+        // const file = fs.readFileSync('stake-log.json')
+        // const currentTime = new Date()
+        // const inputData = {};
+        // inputData[currentTime] = obj1
+        // const exsistData = JSON.parse(file.toString())
+        // console.log(exsistData, typeof exsistData)
+        // obj2 = Object.assign(exsistData, inputData)
+        // fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
 
-    //     // send stable coin to receiver
-    //     stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
-    //         console.log(result);
-    //     });
-    // })
+        // // send stable coin to receiver
+        // stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
+        //     console.log(result);
+        // });
+    })
 });
 
 

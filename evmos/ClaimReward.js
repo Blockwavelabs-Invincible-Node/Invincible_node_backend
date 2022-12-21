@@ -2,10 +2,10 @@ require("dotenv").config();
 const { exec } = require("child_process");
 const { ethers, utils } = require("ethers");
 const { web3 } = require("web3");
-const  liquidStakingJSON  = require("../artifacts/LiquidStaking_metadata.json");
+const  liquidStakingJSON  = require("./artifacts/LiquidStaking.json");
 const pw = process.env.PASSPHRASE;
 const cron = require('node-cron');
-const addresses = require("../addresses/contractAddress.json");
+const addresses = require("./addresses/contractAddress.json");
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
 const privateKey = process.env.EVMOS_PRIVATE_KEY;

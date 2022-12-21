@@ -9,10 +9,9 @@ var web3 = new Web3(Web3.givenProvider);
 
 
 
-const liquidStakingJSON  = require("./artifacts/LiquidStaking_metadata.json");
+const liquidStakingJSON  = require("./artifacts/LiquidStaking.json");
 const stableCoinPoolJSON = require("./artifacts/StableCoinPool.json");
 
-const pw = process.env.PASSPHRASE;
 const addresses = require("./addresses/contractAddress.json");
 
 // const web3 = new Web3(window.ethereum);
@@ -35,7 +34,7 @@ const stableCoinPoolContractABI = stableCoinPoolJSON.output.abi;
 const stableCoinPoolContractWrite = new ethers.Contract(stableCoinPoolContractAddress, stableCoinPoolContractABI, ethereumSigner);
 const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAddress, stableCoinPoolContractABI, ethereumProvider);
 
-console.log("-------------Listening to Contract Event--------------");
+console.log("-------------Listening to Validator Check Event--------------");
 
 //컨트랙트에 listen 하면서 vaidator address get
 liquidStakingContractRead.on("UpdateRequest", (validatorAddress, event) => {
