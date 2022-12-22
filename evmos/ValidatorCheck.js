@@ -45,7 +45,7 @@ liquidStakingContractRead.on("UpdateRequest", (validatorAddress, event) => {
     // }
     var isValidAddress = false
     var originAddress = ""
-    exec("bash ValidatorList.sh", (error, stdout, stderr) => {
+    exec("bash ValidatorCheck.sh", (error, stdout, stderr) => {
         if(error){
             console.log(error)
         }
