@@ -1,3 +1,1 @@
-printf "y\n\n" | evmosd query staking validators --limit 300 -o json | jq -r '.validators[] |
-[.operator_address, .status, (.tokens|tonumber / pow(10; 6)),
-.commission.update_time[0:19], .description.moniker] | @csv' | column -t -s"," | grep $1
+evmosd query staking validators -o json | jq -r '.validators[] | [.operator_address, .commission.commission_rates.rate[2:4]] | @csv'

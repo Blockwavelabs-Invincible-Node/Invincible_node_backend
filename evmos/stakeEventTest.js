@@ -62,16 +62,48 @@ var valiInfo = new Array()
 
 const getScore = async() => {
     const a = await stableCoinPoolContractRead.totalAddressNumber()
+    var valiList = []
     console.log(parseInt(a._hex, 16))
     for(var i=0; i<a; i++){
         const addr = await stableCoinPoolContractRead.addressList(i)
         const valiAddr = await stableCoinPoolContractRead.validatorAddress(addr)
         const balance = await stableCoinPoolContractRead.balanceOf(addr)
         console.log(addr, valiAddr, balance)
+        valiList.push([valiAddr, balance])
     }
-    return 10000
+    return valiList
+    
 }
 
+// getScore().then((valiList) => {
+//     console.log(valiList)
+//     for (const i in valiList){
+//         // console.log(valiList[i][0])
+//         exec("bash ValidatorList.sh", (error, stdout, stderr) => {
+//             if(error){
+//                 console.log(error)
+//             }
+//             const addresss = stdout.split("\n")
+//             // console.log(addresss)
+//             var isValid = false
+//             var commision = "00"
+//             for (const add in addresss){
+                
+//                 const varConvertedAdd = addresss[add].slice(1, -6)
+                
+//                 commision = addresss[add].slice(-3, -1)
+//                 // console.log(commision)
+//                 // // console.log(varConvertedAdd)
+//                 const con = utils.keccak256(utils.toUtf8Bytes(varConvertedAdd))
+//                 // console.log(con)
+//                 if(con == valiList[i][0]){
+//                     valiList[i].push(commision)
+//                     console.log(commision)
+//                 }
+//             }
+//         })
+//     }
+// })
 module.exports = {getScore}
 
 // getScore()
