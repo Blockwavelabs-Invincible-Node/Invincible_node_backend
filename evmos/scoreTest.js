@@ -3,6 +3,7 @@ require("dotenv").config();
 const fs = require('fs');
 const { exec } = require("child_process");
 const { ethers, utils } = require("ethers");
+const async = require('async')
 var Web3 = require('web3');
 
 var web3 = new Web3(Web3.givenProvider);
@@ -38,37 +39,46 @@ const test = async() => {
     a = await getScore();
     return a;
 }
-test().then((valiList) => {
-    
-    for (const i in valiList){
-        // console.log(valiList[i][0])
-        
-        exec("bash ValidatorList.sh", (error, stdout, stderr) => {
-            if(error){
-                console.log(error)
+
+
+test().then(async(valiList) => {
+    for (const vali of valiList){
+        const {error, stdout, stderr} = await new Promise((resolve, reject) => {
+            exec("bash ValidatorList.sh", (error, stdout, stderr) => {
+                if(error){
+                    reject(error)
+                } else {
+                    resolve({ stdout, stderr })
+                }
+            })
+        })
+
+        if(error){
+            console.error(`exec error: {error}`)
+        }
+        const addresss = stdout.split("\n")
+        var commission = "00"
+        for (const add of addresss){
+            const varConvertedAdd = add.slice(1,-6)
+            commission = add.slice(-3, -1)
+            if(varConvertedAdd == vali[0]){
+                vali.push(commission)
             }
 
-            const addresss = stdout.split("\n")
-            
-            var isValid = false
-            var commision = "00"
-            for (const add in addresss){
-                
-                const varConvertedAdd = addresss[add].slice(1, -6)
-                
-                commision = addresss[add].slice(-3, -1)
-                // console.log(commision)
-                // // console.log(varConvertedAdd)
-                const con = utils.keccak256(utils.toUtf8Bytes(varConvertedAdd))
-                
-                if(varConvertedAdd == valiList[i][0]){
-                    valiList[i].push(commision)
-                    console.log(valiList[i])
-                }
-            }
-        })
-        
+        }
+    }
+    console.log(valiList)
+    var totalScore = 0
+    for(const vali of valiList){
+        var valiScore = vali[1] * (100 - parseInt(vali[2])) / 100
+        console.log(valiScore)
+        vali.push(valiScore)
+        totalScore += valiScore
+    }
+    console.log(totalScore)
+    for (const vali of valiList){
+        var valiPercent = vali[3] / totalScore
+        vali.push(valiPercent)
     }
     console.log(valiList)
 })
-
