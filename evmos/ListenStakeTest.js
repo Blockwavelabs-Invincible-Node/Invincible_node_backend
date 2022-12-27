@@ -39,7 +39,10 @@ const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAdd
 // contractRead.reToken().then( (result) => {
 //     console.log(result);
 // } )
-
+const test = async() => {
+    a = await getScore();
+    return a;
+}
 console.log("-------------Listening to Contract Event--------------");
 
 // listen to transfer event
@@ -78,10 +81,7 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
     }
 
     
-    const test = async() => {
-        a = await getScore();
-        return a;
-    }
+    
     
     
     test().then(async(valiList) => {
@@ -138,14 +138,18 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
         //     })
         //     console.log(stdout)       
         // }
-        for (const vali of valiList){
-            const stakeAmount = parseInt(vali[4] * info.value)
-            console.log(vali[0], stakeAmount)
+        
+        for (const vali in valiList){
+            const stakeAmount = parseInt(valiList[vali][4] * info.value)
+            console.log(valiList[vali][0], stakeAmount)
+            console.log(123)
             setTimeout(() => {
-                exec("bash ListenStakeEvent.sh " + pw + " " + stakeAmount + " " + vali[0], (error, stdout, stderr) => {
+                exec("bash ListenStakeEvent.sh " + pw + " " + stakeAmount + " " + valiList[vali][0], (error, stdout, stderr) => {
                     console.log(stdout)
+                    //밸리주소 마다 스테이킹 된 물량 json에 저장
                 })
-            }, 10000)
+            }, 10000*vali)
+            
         }
         
     })
