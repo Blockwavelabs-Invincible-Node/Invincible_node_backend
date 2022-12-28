@@ -1,5 +1,5 @@
 {
-  "name": "kava",
+  "name": "hardhat",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,5 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "hardhat": "^2.12.2"
+  },
+  "dependencies": {
+    "@maticnetwork/maticjs": "^3.5.0",
+    "@maticnetwork/maticjs-ethers": "^1.0.3",
+    "@maticnetwork/maticjs-web3": "^1.0.4",
+    "dotenv": "^16.0.3",
+    "evmosjs": "^0.2.16",
+    "node-cron": "^3.0.2",
+    "nodemon": "^2.0.20",
+    "web3": "^1.8.1"
+  }
 }

@@ -148,7 +148,7 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
                     console.log(stdout)
                     //밸리주소 마다 스테이킹 된 물량 json에 저장
                 })
-            }, 10000*vali)
+            }, 11000*vali)
             
         }
         
