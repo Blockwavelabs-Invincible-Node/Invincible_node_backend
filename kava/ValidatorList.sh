@@ -1,0 +1,1 @@
+evmosd query staking validators -o json | jq -r '.validators[] | [.operator_address, .commission.commission_rates.rate[2:4]] | @csv'
