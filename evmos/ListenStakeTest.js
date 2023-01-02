@@ -145,10 +145,18 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
             console.log(123)
             setTimeout(() => {
                 exec("bash ListenStakeEvent.sh " + pw + " " + stakeAmount + " " + valiList[vali][0], (error, stdout, stderr) => {
-                    console.log(stdout)
+                    if(error){
+                        console.error(`error: ${error}`)
+                    }
+                    if(stderr){
+                        console.log(`stderr: ${stderr}`)
+                    }
+                    if(stdout){
+                    console.log(`stdout: ${stdout}`)
+                    }
                     //밸리주소 마다 스테이킹 된 물량 json에 저장
                 })
-            }, 11000*vali)
+            }, 9000*vali)
             
         }
         

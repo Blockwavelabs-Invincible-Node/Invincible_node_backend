@@ -51,13 +51,14 @@ liquidStakingContractRead.on("UpdateRequest", (validatorAddress, event) => {
         }
         //전체 밸리데이터 주소 문자열을 하나하나씩 나눔
         const addressList = stdout.split("\n")
-        
+        console.log(validatorAddress)
+        console.log()
         for (const addr in addressList){
             //앞뒤에 붙어있는 불필요한 문자열 제거
             const parsedAddress = addressList[addr].slice(3, -3)
             //파싱된 문자열을 hex값으로 변환
             const convertedAddress = utils.keccak256(utils.toUtf8Bytes(parsedAddress))
-            
+            console.log(convertedAddress)
             //컨트랙트를 통해 들어온 hex값과 변환된 밸리 주소의 hex값 비교
             if(convertedAddress == validatorAddress.hash){
                 originAddress = parsedAddress
