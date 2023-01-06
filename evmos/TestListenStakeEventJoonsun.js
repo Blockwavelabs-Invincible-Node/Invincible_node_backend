@@ -45,8 +45,13 @@ const test = async() => {
 }
 console.log("-------------Listening to Contract Event--------------");
 
+let lock = 0;
+
 // listen to transfer event
 liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) => {
+    if (lock == 0) {
+        console.log("lock ", lock);
+        lock = 1;
     let info = {
         from: src,
         to: dst,
@@ -151,7 +156,7 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
                         console.log(`stderr: ${stderr}`)
                     }
                     if(stdout){
-                    console.log(`stdout: ${stdout}`)
+                        console.log(`stdout: ${stdout}`)
                     }
                     //밸리주소 마다 스테이킹 된 물량 json에 저장
                 })
@@ -160,6 +165,11 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
         }
         
     })
+    }
+    else if (lock == 1) {
+
+    }
+ 
 });
 
 

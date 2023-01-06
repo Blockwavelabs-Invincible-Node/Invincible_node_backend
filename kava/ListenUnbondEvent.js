@@ -10,8 +10,8 @@ const addresses = require("./addresses/contractAddress.json");
 const pw = process.env.PASSPHRASE;
 
 // const web3 = new Web3(window.ethereum);
-const provider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
-const privateKey = process.env.EVMOS_PRIVATE_KEY;
+const provider = new ethers.providers.JsonRpcProvider(process.env.KAVA_TESTNET_RPC_URL);
+const privateKey = process.env.KAVA_PRIVATE_KEY;
 const signer = new ethers.Wallet(privateKey, provider);
 const validator = process.env.VALIDATOR;
 

@@ -15,9 +15,9 @@ const stableCoinPoolJSON = require("./artifacts/StableCoinPool.json");
 const addresses = require("./addresses/contractAddress.json");
 
 // const web3 = new Web3(window.ethereum);
-const evmosProvider = new ethers.providers.JsonRpcProvider(process.env.EVMOS_TESTNET_RPC_URL);
-const privateKey = process.env.EVMOS_PRIVATE_KEY;
-const evmosSigner = new ethers.Wallet(privateKey, evmosProvider);
+const kavaProvider = new ethers.providers.JsonRpcProvider(process.env.KAVA_TESTNET_RPC_URL);
+const privateKey = process.env.KAVA_PRIVATE_KEY;
+const kavaSigner = new ethers.Wallet(privateKey, kavaProvider);
 
 const ethereumProvider = new ethers.providers.JsonRpcProvider(process.env.GOERLI_RPC_URL);
 const ethereumSigner = new ethers.Wallet(privateKey, ethereumProvider);
@@ -25,8 +25,8 @@ const ethereumSigner = new ethers.Wallet(privateKey, ethereumProvider);
 const liquidStakingContractAddress = addresses.liquidStaking;
 const liquidStakingContractABI = liquidStakingJSON.output.abi;
 
-const liquidStakingContractWrite = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, evmosSigner);
-const liquidStakingContractRead = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, evmosProvider);
+const liquidStakingContractWrite = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, kavaSigner);
+const liquidStakingContractRead = new ethers.Contract(liquidStakingContractAddress, liquidStakingContractABI, kavaProvider);
 
 const stableCoinPoolContractAddress = addresses.stableTokenPool;
 const stableCoinPoolContractABI = stableCoinPoolJSON.output.abi;
