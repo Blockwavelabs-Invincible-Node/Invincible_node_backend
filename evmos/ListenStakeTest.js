@@ -60,17 +60,17 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
     console.log("Value: ", info.value);
     console.log("Stable Amount: ", info.stable);
     try{
-    const stableAmountNumber = web3.utils.hexToNumber(info.stable);
-    console.log("Stable Amount Number: ", stableAmountNumber);
-    try{
-        stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
-            console.log(result);
-        });
-        }catch(error){
-            console.log(error+'sendStableToken');
-        }
+        const stableAmountNumber = web3.utils.hexToNumber(info.stable);
+        console.log("Stable Amount Number: ", stableAmountNumber);
+        try{
+            stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
+                console.log("stable send successfully! ", result);
+            });
+            }catch(error){
+                console.log("error in send stable coin " + error + 'sendStableToken');
+            }
     } catch(error){
-        console.log(error + 'hex To number error');
+        console.log(error + ' hex To number error');
     }
     try{
     stableCoinPoolContractWrite.owner().then((result) => {
@@ -113,7 +113,7 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
         var totalScore = 0
         for(const vali of valiList){
             var valiScore = vali[1] * (100 - parseInt(vali[2])) / 100
-            console.log(valiScore)
+            // console.log(valiScore)
             vali.push(valiScore)
             totalScore += valiScore
         }
@@ -140,8 +140,7 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
         
         for (const vali in valiList){
             const stakeAmount = parseInt(valiList[vali][4] * info.value)
-            console.log(valiList[vali][0], stakeAmount)
-            console.log(123)
+            
             setTimeout(() => {
                 exec("bash ListenStakeEvent.sh " + pw + " " + stakeAmount + " " + valiList[vali][0], (error, stdout, stderr) => {
                     if(error){

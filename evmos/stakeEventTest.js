@@ -36,12 +36,12 @@ const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAdd
 const getScore = async() => {
     const a = await stableCoinPoolContractRead.totalAddressNumber()
     var valiList = []
-    console.log(parseInt(a._hex, 16))
+    // console.log(parseInt(a._hex, 16))
     for(var i=0; i<a; i++){
         const addr = await stableCoinPoolContractRead.addressList(i)
         const valiAddr = await stableCoinPoolContractRead.validatorAddress(addr)
         const balance = await stableCoinPoolContractRead.balanceOf(addr)
-        console.log(addr, valiAddr, balance)
+        // console.log(addr, valiAddr, balance)
         valiList.push([valiAddr, parseInt(balance._hex, 16)/(Math.pow(10,18))])
     }
     return valiList

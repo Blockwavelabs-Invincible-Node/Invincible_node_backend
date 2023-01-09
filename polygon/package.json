@@ -1,0 +1,22 @@
+{
+  "name": "polygon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@maticnetwork/maticjs": "^3.5.0",
+    "@maticnetwork/maticjs-ethers": "^1.0.3",
+    "@maticnetwork/maticjs-web3": "^1.0.4",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "evmosjs": "^0.2.16",
+    "node-cron": "^3.0.2",
+    "nodemon": "^2.0.20",
+    "web3": "^1.8.1"
+  }
+}

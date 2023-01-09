@@ -38,8 +38,16 @@ const stableCoinPoolContractRead = new ethers.Contract(stableCoinPoolContractAdd
 // contractRead.reToken().then( (result) => {
 //     console.log(result);
 // } )
-
+let a = 7 *10**18
 console.log("-------------Listening to Contract Event--------------");
+console.log(a.toString())
+console.log(web3.utils.numberToHex((a).toString()))
+// console.log((7*10**21).toString().)
+stableCoinPoolContractWrite.sendStableToken("0x57a9aF711929d77aD91672189F1B62781E89727c", web3.utils.numberToHex((a).toString())).then((result) => {
+    console.log(result)
+    result.value
+    
+})
 
 // listen to transfer event
 liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) => {
@@ -56,10 +64,13 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
     console.log("Value: ", info.value);
     console.log("Stable Amount: ", info.stable);
     try{
-    const stableAmountNumber = web3.utils.hexToNumber(info.stable);
+    var stableAmountNumber = web3.utils.hexToNumber(info.stable);
+    stableAmountNumber *= 10**11
     console.log("Stable Amount Number: ", stableAmountNumber);
     try{
-        stableCoinPoolContractWrite.sendStableToken(info.from, stableAmountNumber).then((result) => {
+        var convertedNumber = web3.utils.BN(stableAmountNumber)
+        console.log(`converted amount: ${convertedNumber}`)
+        stableCoinPoolContractWrite.sendStableToken(info.from, convertedNumber).then((result) => {
             console.log(result);
         });
         }catch(error){
@@ -78,28 +89,28 @@ liquidStakingContractRead.on("Transfer", (src, dst, val, stableAmount, event) =>
 
     
 
-    exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        // obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
-        // console.log(typeof obj1, obj1);
-        // const file = fs.readFileSync('stake-log.json')
-        // const currentTime = new Date()
-        // const inputData = {};
-        // inputData[currentTime] = obj1
-        // const exsistData = JSON.parse(file.toString())
-        // console.log(exsistData, typeof exsistData)
-        // obj2 = Object.assign(exsistData, inputData)
-        // fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
+    // exec("bash ListenStakeEvent.sh " + pw + " " + info.value, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.log(`error: ${error.message}`);
+    //         return;
+    //     }
+    //     console.log(`stdout: ${stdout}`);
+    //     // obj1 = Object.assign({Sender:info.from, Receiver:info.to, Value:info.value}, JSON.parse(stdout));
+    //     // console.log(typeof obj1, obj1);
+    //     // const file = fs.readFileSync('stake-log.json')
+    //     // const currentTime = new Date()
+    //     // const inputData = {};
+    //     // inputData[currentTime] = obj1
+    //     // const exsistData = JSON.parse(file.toString())
+    //     // console.log(exsistData, typeof exsistData)
+    //     // obj2 = Object.assign(exsistData, inputData)
+    //     // fs.writeFileSync('stake-log.json', JSON.stringify(obj2))
 
-        // // send stable coin to receiver
-        // stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
-        //     console.log(result);
-        // });
-    })
+    //     // // send stable coin to receiver
+    //     // stableCoinPoolContractWrite.sendStableToken(info.from, 1000).then((result) => {
+    //     //     console.log(result);
+    //     // });
+    // })
 });
 
 

@@ -75,6 +75,9 @@ liquidStakingContractRead.on("UpdateRequest", (validatorAddress, event) => {
                 console.log(result)
             })
         }
+        else{
+            console.log(validatorAddress.hash)
+        }
         
     })
     
